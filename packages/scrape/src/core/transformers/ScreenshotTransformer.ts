@@ -121,6 +121,44 @@ export class ScreenshotTransformer {
                 return;
             }
 
+            // Phase 2: unblock media resources for screenshot capture
+            const cdp = (page as any).__anycrawlCdpSession;
+            if (cdp) {
+                try {
+                    await cdp.send("Fetch.disable");
+                    await cdp.send("Network.setCacheDisabled", { cacheDisabled: true });
+                    await page.evaluate(() => {
+                        document.querySelectorAll("img[src]").forEach((img: HTMLImageElement) => {
+                            if (img.complete && img.naturalWidth > 0) return;
+                            const s = img.getAttribute("src")!;
+                            img.removeAttribute("src");
+                            // force reflow before re-setting src
+                            const _reflow = img.offsetHeight;
+                            img.setAttribute("src", s);
+                        });
+                        document.querySelectorAll("picture source[srcset]").forEach((el: HTMLSourceElement) => {
+                            const s = el.getAttribute("srcset")!;
+                            el.removeAttribute("srcset");
+                            el.setAttribute("srcset", s);
+                        });
+                    });
+                    await page.evaluate(() => new Promise<void>(resolve => {
+                        const check = () => {
+                            if ([...document.getElementsByTagName("img")].every((i: HTMLImageElement) => i.complete)) {
+                                resolve();
+                                return;
+                            }
+                            setTimeout(check, 100);
+                        };
+                        check();
+                        setTimeout(resolve, 5000);
+                    }));
+                    await cdp.send("Network.setCacheDisabled", { cacheDisabled: false });
+                } catch {
+                    // proceed with screenshot even if media unblock fails
+                }
+            }
+
             const screenshot = await page.screenshot(screenshotOptions);
             log.debug(`[Screenshot] Captured screenshot for ${context.request.url} -> ${fileName}`);
 

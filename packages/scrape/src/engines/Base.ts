@@ -26,6 +26,7 @@ import { BandwidthManager } from "../managers/Bandwidth.js";
 import { getResolvedProxyModeName } from "../managers/Proxy.js";
 import { ensureChallengeState, consumeProxyAction } from "../challenges/ChallengeContext.js";
 import { ProxyCacheManager } from "../managers/ProxyCacheManager.js";
+import { smartWaitForDOMStable } from "../utils/smartWait.js";
 
 // Template system imports - directly use @anycrawl/template-client
 
@@ -684,8 +685,11 @@ export abstract class BaseEngine {
                 }
                 delete userData._anycrawlFinalNavigationStatus;
 
-                // Let potential post-challenge redirects settle before evaluating status.
-                await sleep(1_000);
+                await smartWaitForDOMStable(page, context.request.url, {
+                    label: "postReload",
+                    useCache: false,
+                    maxWaitMs: 3000,
+                });
 
                 const refreshedRaw = context.response
                     ? this.extractResponseStatus(context.response as CrawlerResponse)
@@ -767,25 +771,10 @@ export abstract class BaseEngine {
             }
             userData._anycrawlPostChallengeSettled = true;
 
-            try {
-                if (typeof page.waitForLoadState === "function") {
-                    await page.waitForLoadState("domcontentloaded", { timeout: 5_000 });
-                } else if (typeof page.waitForNavigation === "function") {
-                    await page.waitForNavigation({
-                        waitUntil: "domcontentloaded",
-                        timeout: 5_000,
-                    });
-                } else {
-                    await sleep(500);
-                }
-
-                // Give redirects/scripts a short settle window before extraction.
-                await sleep(300);
-            } catch (error) {
-                log.debug(
-                    `[HTTP] Post-challenge settle skipped for ${context.request.url}: ${error instanceof Error ? error.message : String(error)}`
-                );
-            }
+            await smartWaitForDOMStable(page, context.request.url, {
+                label: "postChallenge",
+                useCache: false,
+            });
         };
 
         const requestHandler = async (context: CrawlingContext) => {
