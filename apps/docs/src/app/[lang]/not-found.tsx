@@ -1,6 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
+import { getDocsUi, localeFromPathname } from "@/lib/docs-ui-i18n";
 
 export default function NotFound() {
+    const pathname = usePathname();
+    const lang = useMemo(() => localeFromPathname(pathname), [pathname]);
+    const { notFoundDescription, notFoundGoToDocs } = getDocsUi(lang);
+
     return (
         <div
             style={{
@@ -14,11 +23,9 @@ export default function NotFound() {
             }}
         >
             <h1 style={{ fontSize: "4rem", fontWeight: 700, margin: 0 }}>404</h1>
-            <p style={{ fontSize: "1.25rem", marginTop: "0.5rem", opacity: 0.7 }}>
-                This page could not be found.
-            </p>
+            <p style={{ fontSize: "1.25rem", marginTop: "0.5rem", opacity: 0.7 }}>{notFoundDescription}</p>
             <Link
-                href="/en/general"
+                href={`/${lang}/general`}
                 style={{
                     marginTop: "1.5rem",
                     padding: "0.5rem 1.5rem",
@@ -29,7 +36,7 @@ export default function NotFound() {
                     fontWeight: 500,
                 }}
             >
-                Go to Docs
+                {notFoundGoToDocs}
             </Link>
         </div>
     );

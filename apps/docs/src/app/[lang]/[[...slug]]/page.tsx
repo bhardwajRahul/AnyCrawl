@@ -19,7 +19,19 @@ export default async function Page(props: { params: Promise<{ lang: string; slug
     const MDXContent = page.data.body;
     const slug = params.slug.join("/");
     const pageUrl = `${baseUrl}/${params.lang}/${slug}`;
-    const langCodeMap: Record<string, string> = { "zh-cn": "zh-Hans", "zh-tw": "zh-Hant" };
+    const langCodeMap: Record<string, string> = {
+        "zh-cn": "zh-Hans",
+        "zh-tw": "zh-Hant",
+        es: "es",
+        vi: "vi",
+        ja: "ja",
+        ko: "ko",
+        "pt-br": "pt-BR",
+        fr: "fr",
+        de: "de",
+        ru: "ru",
+        th: "th",
+    };
     const langCode = langCodeMap[params.lang] ?? "en";
 
     const jsonLd = {
@@ -138,6 +150,15 @@ export async function generateMetadata(props: {
                 en: `${baseUrl}/en${slug ? `/${slug}` : ""}`,
                 "zh-CN": `${baseUrl}/zh-cn${slug ? `/${slug}` : ""}`,
                 "zh-TW": `${baseUrl}/zh-tw${slug ? `/${slug}` : ""}`,
+                es: `${baseUrl}/es${slug ? `/${slug}` : ""}`,
+                vi: `${baseUrl}/vi${slug ? `/${slug}` : ""}`,
+                ja: `${baseUrl}/ja${slug ? `/${slug}` : ""}`,
+                ko: `${baseUrl}/ko${slug ? `/${slug}` : ""}`,
+                "pt-BR": `${baseUrl}/pt-br${slug ? `/${slug}` : ""}`,
+                fr: `${baseUrl}/fr${slug ? `/${slug}` : ""}`,
+                de: `${baseUrl}/de${slug ? `/${slug}` : ""}`,
+                ru: `${baseUrl}/ru${slug ? `/${slug}` : ""}`,
+                th: `${baseUrl}/th${slug ? `/${slug}` : ""}`,
             },
         },
     };

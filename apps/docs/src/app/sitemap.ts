@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { source } from "@/lib/source";
 import { baseUrl } from "@/lib/utils";
 
-const languages = ["en", "zh-cn", "zh-tw"] as const;
+const languages = ["en", "zh-cn", "zh-tw", "es", "vi", "ja", "ko", "pt-br", "fr", "de", "ru", "th"] as const;
 
 function toDate(value: unknown): Date {
     if (value instanceof Date) return value;
@@ -18,6 +18,15 @@ function buildAlternates(path: string) {
         en: `${baseUrl}/en${path}`,
         "zh-CN": `${baseUrl}/zh-cn${path}`,
         "zh-TW": `${baseUrl}/zh-tw${path}`,
+        es: `${baseUrl}/es${path}`,
+        vi: `${baseUrl}/vi${path}`,
+        ja: `${baseUrl}/ja${path}`,
+        ko: `${baseUrl}/ko${path}`,
+        "pt-BR": `${baseUrl}/pt-br${path}`,
+        fr: `${baseUrl}/fr${path}`,
+        de: `${baseUrl}/de${path}`,
+        ru: `${baseUrl}/ru${path}`,
+        th: `${baseUrl}/th${path}`,
     };
     return { languages };
 }
