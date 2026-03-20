@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "dev": "next dev --turbo",
-        "build": "next build",
+        "build": "pnpm run verify:mdx-frontmatter && next build",
+        "verify:mdx-frontmatter": "node scripts/verify-mdx-frontmatter.mjs",
         "build:with-openapi": "pnpm run generate-openapi && next build",
         "start": "next start",
         "clean": "rm -rf .next",
