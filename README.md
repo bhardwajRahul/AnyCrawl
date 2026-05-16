@@ -45,6 +45,15 @@
 Swiftproxy(https://www.swiftproxy.net/?ref=AnyCrawl) — High-performance residential proxies built for scraping, automation, and large-scale data collection. Access 80M+ rotating residential IPs across 195+ countries with stable connections, high anonymity, and developer-friendly integration. Ideal for AI agents, crawlers, browser automation, and anti-bot bypass workflows.
 Free trial available. Use code **PROXY90** for an exclusive 10% discount.
 
+<div align="center">
+  <p>
+    <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=sponsor&utm_campaign=AnyCrawl">
+      <img src="https://ac-public.anycrawl.dev/sponsors/ATLAS%20CLOUD%20LOGO_BLACK.png" alt="Atlas Cloud" width="560">
+    </a>
+  </p>
+</div>
+AtlasCloud(https://www.atlascloud.ai/?utm_source=github&utm_medium=sponsor&utm_campaign=AnyCrawl) — Atlas Cloud gives developers one API for 300 plus models, covering video, image, and LLM. It includes DeepSeek, GPT, Claude, Flux, Kling, and Seedance.
+
 ## 📖 Overview
 
 AnyCrawl is a high‑performance crawling and scraping toolkit:
