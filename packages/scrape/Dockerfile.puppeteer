@@ -69,12 +69,11 @@ RUN npx cloakbrowser install
 # Ensure better-sqlite3 is compiled inside this glibc image (avoid musl prebuild artifacts)
 RUN pnpm rebuild better-sqlite3
 
-# Ensure puppeteer browsers are properly installed
-RUN npx puppeteer browsers install chrome
-
-# Set puppeteer environment variables
 ENV PUPPETEER_CACHE_DIR=/home/myuser/.cache/puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
+RUN mkdir -p /home/myuser/.cache/puppeteer
+RUN npx puppeteer browsers install chrome
+
 ENV ANYCRAWL_AVAILABLE_ENGINES=puppeteer
 
 CMD [ "node", "dist/Worker.js" ]

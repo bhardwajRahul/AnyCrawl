@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-beta.34] - 2026-07-18
+
+### Fixed
+
+- Cheerio Docker image: copy root `package.json` in production stage so Corepack pins pnpm 10.12.4 (fixes CI build failure on v1.0.0-beta.33)
+- Puppeteer Docker image: set `PUPPETEER_CACHE_DIR` before browser install to avoid EACCES on `/puppeteer-browsers`
+
 ## [1.0.0-beta.23] - 2026-03-19
 
 ### Added
