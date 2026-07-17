@@ -17,6 +17,7 @@
         "template",
         "---Automatisierung---",
         "scheduled-tasks",
+        "monitors",
         "webhooks",
         "---Entwicklerleitfäden---",
         "mcp-setup-guides",

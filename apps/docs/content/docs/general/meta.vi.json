@@ -17,6 +17,7 @@
         "template",
         "---Tự động hóa---",
         "scheduled-tasks",
+        "monitors",
         "webhooks",
         "---Hướng dẫn nhà phát triển---",
         "mcp-setup-guides",

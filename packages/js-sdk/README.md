@@ -280,6 +280,35 @@ const events = await client.getWebhookEvents();
 // events.event_types, events.categories
 ```
 
+### Monitors
+
+```ts
+// Create a webpage change monitor
+const monitor = await client.createMonitor({
+    name: "Docs watch",
+    monitor_type: "webpage",
+    cron_expression: "0 * * * *",
+    targets: [{ url: "https://example.com/changelog", engine: "auto" }],
+    diff_options: { only_main_content: true },
+    notify_options: { channels: ["webhook"], only_meaningful: true },
+});
+// monitor.monitor_id, monitor.scheduled_task_id, monitor.next_execution_at
+
+// List, get, update, delete
+const monitors = await client.listMonitors();
+const m = await client.getMonitor(monitor.monitor_id);
+await client.updateMonitor(monitor.monitor_id, { cron_expression: "0 */2 * * *" });
+await client.deleteMonitor(monitor.monitor_id);
+
+// Lifecycle and history
+await client.pauseMonitor(monitor.monitor_id);
+await client.resumeMonitor(monitor.monitor_id);
+await client.runMonitor(monitor.monitor_id);
+const snapshots = await client.getMonitorSnapshots(monitor.monitor_id, { limit: 10 });
+const changes = await client.getMonitorChanges(monitor.monitor_id, { limit: 10 });
+await client.getMonitorChange(monitor.monitor_id, changeId);
+```
+
 Notes:
 
 - Engine defaults to `auto` when omitted — the server automatically picks the best engine (`cheerio` for static pages, `playwright` for JS-heavy pages).
@@ -370,5 +399,18 @@ Notes:
 - `deactivateWebhook(webhookId): Promise<void>`
 - `replayWebhookDelivery(webhookId, deliveryId): Promise<void>`
 - `getWebhookEvents(): Promise<WebhookEventsResponse>`
+
+**Monitors** (requires `@anycrawl/js-sdk` 0.0.6+)
+- `createMonitor(input): Promise<MonitorCreateResponse>`
+- `listMonitors(): Promise<Monitor[]>`
+- `getMonitor(monitorId): Promise<Monitor>`
+- `updateMonitor(monitorId, input): Promise<Monitor>`
+- `deleteMonitor(monitorId): Promise<void>`
+- `pauseMonitor(monitorId): Promise<void>`
+- `resumeMonitor(monitorId): Promise<void>`
+- `runMonitor(monitorId): Promise<void>`
+- `getMonitorSnapshots(monitorId, params?): Promise<MonitorSnapshot[]>`
+- `getMonitorChanges(monitorId, params?): Promise<MonitorChange[]>`
+- `getMonitorChange(monitorId, changeId): Promise<MonitorChange>`
 
 Type definitions are exported from `@anycrawl/js-sdk` for TypeScript users.

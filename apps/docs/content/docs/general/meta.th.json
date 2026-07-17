@@ -17,6 +17,7 @@
         "template",
         "---ระบบอัตโนมัติ---",
         "scheduled-tasks",
+        "monitors",
         "webhooks",
         "---คู่มือสำหรับนักพัฒนา---",
         "mcp-setup-guides",

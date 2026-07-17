@@ -17,6 +17,7 @@
         "template",
         "---自动化---",
         "scheduled-tasks",
+        "monitors",
         "webhooks",
         "---开发者指南---",
         "mcp-setup-guides",
