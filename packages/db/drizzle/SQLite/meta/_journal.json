@@ -141,6 +141,13 @@
       "when": 1786351147665,
       "tag": "0019_backfill_missing_user_id",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1786469378185,
+      "tag": "0020_backfill_scheduler_webhook_tables",
+      "breakpoints": true
     }
   ]
 }
