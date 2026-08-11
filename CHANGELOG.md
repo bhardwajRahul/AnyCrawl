@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-beta.36] - 2026-08-12
+
+### Added
+
+- **Template Runs (L3)** — dedicated template endpoints plus asynchronous orchestrated runs: template revisions and config contracts, call-spec `inputs`/`url_mode` and `output.return_modes`, persisted `runtime` + `outputSchema`, an `OrchestratedRunner` that honors `max_concurrency`, a `template-run` worker, and the `template_runs` / `template_run_events` / `template_run_requests` ledgers backing run dispatch.
+- **Dataset platform** — dedicated Dataset endpoints (L1 + L2) with `jsonb`-direct querying, async exports (JSONL/CSV), run-item membership, RFC-6901 projection, and `dataset_run` finalize for crawl. Batch scrape now writes results to a Dataset, reaching parity with scrape/crawl/search.
+- JS SDK template client — `template` methods added to `@anycrawl/js-sdk` (published in 0.0.8).
+
+### Fixed
+
+- **Monitor** — overhauled reliability and the scheduled-execution lifecycle (auto-engine selection and execution-anchor handling).
+- **SQLite migrations** — create the missing scheduler/webhook tables (`0020`) and backfill the missing `user_id` column (`0019`) so SQLite deployments match the PostgreSQL schema.
+- **Billing** — fail-closed invariant now throws outside production instead of silently degrading.
+- Dataset and template fixes surfaced by live PostgreSQL / integration testing (`create.name`, jsonb eq key cast, `fetchPage` request options, and others).
+
+### Security
+
+- **Template client validator** — block `setTimeout`/`setInterval` in user-supplied template code and add a code-length cap.
+
 ## [1.0.0-beta.35] - 2026-08-06
 
 ### Added
